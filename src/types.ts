@@ -46,6 +46,8 @@ export interface Prescription {
   aiFlags: string[]
   createdAt: string
   updatedAt: string
+  patientInstructionsEn?: string
+  patientInstructionsAr?: string
 }
 
 export type ApiKeyStatus = 'untested' | 'active' | 'degraded' | 'down'

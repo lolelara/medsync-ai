@@ -11,12 +11,13 @@ interface DataContextValue {
   doctors: Doctor[]
   prescriptions: Prescription[]
   updatePrescriptionStatus: (id: string, status: PrescriptionStatus) => void
+  updateUser: (id: string, updates: Partial<User>) => void
 }
 
 const DataContext = createContext<DataContextValue | undefined>(undefined)
 
 export function DataProvider({ children }: { children: ReactNode }) {
-  const [users] = useState<User[]>(mockUsers)
+  const [users, setUsers] = useState<User[]>(mockUsers)
   const [organizations] = useState<Organization[]>(mockOrganizations)
   const [doctors] = useState<Doctor[]>(mockDoctors)
   const [prescriptions, setPrescriptions] = useState<Prescription[]>(mockPrescriptions)
@@ -31,6 +32,10 @@ export function DataProvider({ children }: { children: ReactNode }) {
     )
   }
 
+  const updateUser = (id: string, updates: Partial<User>) => {
+    setUsers(prev => prev.map(u => (u.id === id ? { ...u, ...updates } : u)))
+  }
+
   const value = useMemo(
     () => ({
       users,
@@ -38,6 +43,7 @@ export function DataProvider({ children }: { children: ReactNode }) {
       doctors,
       prescriptions,
       updatePrescriptionStatus,
+      updateUser,
     }),
     [users, organizations, doctors, prescriptions]
   )

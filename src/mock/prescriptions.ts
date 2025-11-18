@@ -26,6 +26,10 @@ export const mockPrescriptions: Prescription[] = [
     aiFlags: ['Recommend baseline renal function tests'],
     createdAt: daysAgo(1),
     updatedAt: daysAgo(1),
+    patientInstructionsEn:
+      'Take Lisinopril once daily at the same time each morning. Monitor your blood pressure at home twice per week and report dizziness or fainting.',
+    patientInstructionsAr:
+      'تناول عقار ليسينوبريل مرة واحدة يومياً في نفس التوقيت صباحاً. راقب ضغط الدم في المنزل مرتين أسبوعياً وأبلغ الطبيب عند حدوث دوخة أو إغماء.',
   },
   {
     id: 'rx-2',
@@ -45,6 +49,10 @@ export const mockPrescriptions: Prescription[] = [
     aiFlags: ['High bleeding risk', 'Check INR and review concurrent aspirin use'],
     createdAt: daysAgo(2),
     updatedAt: daysAgo(0),
+    patientInstructionsEn:
+      'Take Warfarin and Aspirin exactly as prescribed. Watch for signs of bleeding such as black stools, nosebleeds, or unusual bruising and seek urgent care if they occur.',
+    patientInstructionsAr:
+      'تناول الوارفارين والأسبرين تماماً كما وصف الطبيب. انتبه لعلامات النزيف مثل البراز الأسود أو نزيف الأنف أو الكدمات غير العادية، واطلب الرعاية الطبية فوراً إذا ظهرت.',
   },
   {
     id: 'rx-3',
@@ -63,6 +71,10 @@ export const mockPrescriptions: Prescription[] = [
     aiFlags: ['Confirm weight and allergy history'],
     createdAt: daysAgo(3),
     updatedAt: daysAgo(2),
+    patientInstructionsEn:
+      'Give Amoxicillin twice daily after food for 7 days. Complete the full course even if symptoms improve and contact your doctor if fever persists more than 48 hours.',
+    patientInstructionsAr:
+      'أعطِ الأموكسيسيلين مرتين يومياً بعد الطعام لمدة 7 أيام. أكمل الجرعة كاملة حتى لو تحسنت الأعراض، وتواصل مع الطبيب إذا استمرت الحرارة لأكثر من 48 ساعة.',
   },
   {
     id: 'rx-4',
@@ -82,6 +94,10 @@ export const mockPrescriptions: Prescription[] = [
     aiFlags: ['Monitor eGFR every 3-6 months'],
     createdAt: daysAgo(0),
     updatedAt: daysAgo(0),
+    patientInstructionsEn:
+      'Take Metformin with meals and Empagliflozin once daily. Drink adequate fluids and contact your doctor if you develop nausea, vomiting, or reduced urine output.',
+    patientInstructionsAr:
+      'تناول الميتفورمين مع الطعام والإمباغليفلوزين مرة واحدة يومياً. اشرب كمية كافية من السوائل، وتواصل مع طبيبك عند حدوث غثيان أو قيء أو نقص في كمية البول.',
   },
   {
     id: 'rx-5',
@@ -100,6 +116,10 @@ export const mockPrescriptions: Prescription[] = [
     aiFlags: ['Schedule follow-up within 2 weeks'],
     createdAt: daysAgo(4),
     updatedAt: daysAgo(3),
+    patientInstructionsEn:
+      'Take Sertraline once daily, preferably in the morning. Do not stop suddenly and contact your doctor urgently if you notice worsening mood or suicidal thoughts.',
+    patientInstructionsAr:
+      'تناول السيرترالين مرة واحدة يومياً ويفضل صباحاً. لا توقف الدواء بشكل مفاجئ، واتصل بطبيبك فوراً إذا لاحظت تدهوراً في المزاج أو أفكاراً انتحارية.',
   },
   {
     id: 'rx-6',
@@ -118,5 +138,9 @@ export const mockPrescriptions: Prescription[] = [
     aiFlags: ['Avoid NSAIDs in CKD', 'Review alternative pain management options'],
     createdAt: daysAgo(1),
     updatedAt: daysAgo(1),
+    patientInstructionsEn:
+      'Avoid other painkillers containing ibuprofen or similar drugs. Contact your doctor if you notice ankle swelling, shortness of breath, or decreased urine.',
+    patientInstructionsAr:
+      'تجنب تناول مسكنات أخرى تحتوي على الإيبوبروفين أو أدوية مشابهة. تواصل مع طبيبك إذا لاحظت تورم الكاحلين أو ضيقاً في التنفس أو نقصاً في كمية البول.',
   },
 ]

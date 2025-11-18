@@ -3,13 +3,19 @@ import { useData } from '../../context/DataContext'
 import { Card } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
 import { StatusPill } from '../../components/ui/StatusPill'
+import { useLanguage } from '../../context/LanguageContext'
+import { checkDrugInteractions, getInteractingDrugNames } from '../../services/drugInteractionService'
 
 function DoctorPrescriptionDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const { prescriptions, updatePrescriptionStatus } = useData()
+  const { language } = useLanguage()
 
   const prescription = prescriptions.find(p => p.id === id)
+
+  const interactions = prescription ? checkDrugInteractions(prescription.medications) : []
+  const interactingDrugNames = prescription ? getInteractingDrugNames(prescription.medications) : []
 
   if (!prescription) {
     return (
@@ -26,9 +32,15 @@ function DoctorPrescriptionDetailPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-semibold text-slate-900">Prescription for {prescription.patientName}</h1>
+          <h1 className="text-xl font-semibold text-slate-900">
+            {language === 'ar'
+              ? `وصفة دوائية لـ ${prescription.patientName}`
+              : `Prescription for ${prescription.patientName}`}
+          </h1>
           <p className="mt-1 text-xs text-slate-500">
-            AI-generated review and risk scoring are mocked for clinical demo only.
+            {language === 'ar'
+              ? 'مراجعة الذكاء الاصطناعي ودرجات الخطورة في هذا العرض تجريبية فقط وليست نصيحة طبية حقيقية.'
+              : 'AI-generated review and risk scoring in this demo are mock data only and not real medical advice.'}
           </p>
         </div>
         <Button variant="secondary" size="sm" onClick={() => navigate(-1)}>
@@ -41,22 +53,34 @@ function DoctorPrescriptionDetailPage() {
           <div className="flex items-center justify-between">
             <div>
               <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-                Clinical details
+                {language === 'ar' ? 'تفاصيل سريرية' : 'Clinical details'}
               </div>
-              <div className="mt-1 text-sm text-slate-900">Diagnosis: {prescription.diagnosis}</div>
+              <div className="mt-1 text-sm text-slate-900">
+                {language === 'ar'
+                  ? `التشخيص: ${prescription.diagnosis}`
+                  : `Diagnosis: ${prescription.diagnosis}`}
+              </div>
             </div>
             <StatusPill type="prescription" status={prescription.status} />
           </div>
 
           <div className="border-t border-slate-100 pt-3">
             <div className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-2">
-              Medications
+              {language === 'ar' ? 'الأدوية' : 'Medications'}
             </div>
             <ul className="space-y-2 text-xs text-slate-700">
               {prescription.medications.map(m => (
                 <li key={m.name} className="flex items-start justify-between">
                   <div>
-                    <div className="font-medium text-slate-900">{m.name}</div>
+                    <div
+                      className={`font-medium ${
+                        interactingDrugNames.includes(m.name.toLowerCase())
+                          ? 'text-red-600'
+                          : 'text-slate-900'
+                      }`}
+                    >
+                      {m.name}
+                    </div>
                     <div className="text-slate-600">
                       {m.dosage} · {m.frequency}
                     </div>
@@ -78,7 +102,7 @@ function DoctorPrescriptionDetailPage() {
 
           <div>
             <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-              Risk score
+              {language === 'ar' ? 'درجة الخطورة' : 'Risk score'}
             </div>
             <div className="mt-2 flex items-center gap-3">
               <div className="flex-1 h-2 rounded-full bg-slate-100 overflow-hidden">
@@ -100,7 +124,9 @@ function DoctorPrescriptionDetailPage() {
           </div>
 
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">AI flags</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+              {language === 'ar' ? 'ملاحظات الذكاء الاصطناعي' : 'AI flags'}
+            </div>
             <ul className="mt-2 space-y-1 text-xs text-slate-700">
               {prescription.aiFlags.map(flag => (
                 <li key={flag} className="flex items-start gap-2">

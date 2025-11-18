@@ -1,10 +1,12 @@
 import { useAuth } from '../context/AuthContext'
 import { useApiKeys } from '../context/ApiKeyContext'
 import { Button } from '../components/ui/Button'
+import { useLanguage } from '../context/LanguageContext'
 
 export function TopBar() {
   const { user, logout } = useAuth()
   const { activeKey } = useApiKeys()
+  const { language, toggleLanguage } = useLanguage()
 
   return (
     <header className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-3">
@@ -19,6 +21,14 @@ export function TopBar() {
       </div>
 
       <div className="flex items-center gap-6">
+        <Button
+          variant="secondary"
+          size="sm"
+          className="text-xs px-2 py-1"
+          onClick={toggleLanguage}
+        >
+          {language === 'ar' ? 'EN' : 'عربي'}
+        </Button>
         {activeKey && (
           <div className="hidden md:flex flex-col items-end text-xs">
             <span className="text-slate-500">Active AI engine</span>
