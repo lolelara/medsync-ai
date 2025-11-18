@@ -8,6 +8,9 @@ import AdminApiKeysPage from '../pages/admin/AdminApiKeysPage'
 import AdminSettingsPage from '../pages/admin/AdminSettingsPage'
 import DoctorDashboard from '../pages/doctor/DoctorDashboard'
 import DoctorPrescriptionDetailPage from '../pages/doctor/DoctorPrescriptionDetailPage'
+import DoctorPatientsPage from '../pages/doctor/DoctorPatientsPage'
+import DoctorPatientDetailPage from '../pages/doctor/DoctorPatientDetailPage'
+import DoctorAppointmentsPage from '../pages/doctor/DoctorAppointmentsPage'
 import OrgDashboard from '../pages/org/OrgDashboard'
 import OrgDoctorsPage from '../pages/org/OrgDoctorsPage'
 import OrgPrescriptionsPage from '../pages/org/OrgPrescriptionsPage'
@@ -90,12 +93,45 @@ export function AppRoutes() {
           }
       />
       <Route
+        path="/doctor/patients"
+        element=
+          {
+            <ProtectedRoute roles={['doctor']}>
+              <DoctorLayout>
+                <DoctorPatientsPage />
+              </DoctorLayout>
+            </ProtectedRoute>
+          }
+      />
+      <Route
+        path="/doctor/patients/:id"
+        element=
+          {
+            <ProtectedRoute roles={['doctor']}>
+              <DoctorLayout>
+                <DoctorPatientDetailPage />
+              </DoctorLayout>
+            </ProtectedRoute>
+          }
+      />
+      <Route
         path="/doctor/prescriptions/:id"
         element=
           {
             <ProtectedRoute roles={['doctor']}>
               <DoctorLayout>
                 <DoctorPrescriptionDetailPage />
+              </DoctorLayout>
+            </ProtectedRoute>
+          }
+      />
+      <Route
+        path="/doctor/appointments"
+        element=
+          {
+            <ProtectedRoute roles={['doctor']}>
+              <DoctorLayout>
+                <DoctorAppointmentsPage />
               </DoctorLayout>
             </ProtectedRoute>
           }

@@ -1,0 +1,58 @@
+import { Patient } from '../types'
+
+export const mockPatients: Patient[] = [
+  {
+    id: 'patient-1',
+    name: 'John Doe',
+    age: 54,
+    gender: 'male',
+    phone: '+1 555-0101',
+    email: 'john.doe@example.com',
+    notes: 'Hypertension, non-smoker.',
+  },
+  {
+    id: 'patient-2',
+    name: 'Maria Rodriguez',
+    age: 67,
+    gender: 'female',
+    phone: '+1 555-0102',
+    email: 'maria.rodriguez@example.com',
+    notes: 'Atrial fibrillation on anticoagulation.',
+  },
+  {
+    id: 'patient-3',
+    name: 'Liam Smith',
+    age: 8,
+    gender: 'male',
+    phone: '+1 555-0103',
+    email: 'liam.smith@example.com',
+    notes: 'Recurrent ear infections.',
+  },
+  {
+    id: 'patient-4',
+    name: 'Evelyn Johnson',
+    age: 45,
+    gender: 'female',
+    phone: '+1 555-0104',
+    email: 'evelyn.johnson@example.com',
+    notes: 'Type 2 diabetes.',
+  },
+  {
+    id: 'patient-5',
+    name: 'Noah Wilson',
+    age: 36,
+    gender: 'male',
+    phone: '+1 555-0105',
+    email: 'noah.wilson@example.com',
+    notes: 'Major depressive disorder.',
+  },
+  {
+    id: 'patient-6',
+    name: 'Olivia Martinez',
+    age: 72,
+    gender: 'female',
+    phone: '+1 555-0106',
+    email: 'olivia.martinez@example.com',
+    notes: 'Chronic kidney disease stage 3.',
+  },
+]

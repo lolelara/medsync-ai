@@ -18,6 +18,8 @@ export function Sidebar({ variant }: SidebarProps) {
 
   const navDoctor = [
     { to: '/doctor', label: language === 'ar' ? 'قائمة الوصفات' : 'My Queue' },
+    { to: '/doctor/patients', label: language === 'ar' ? 'المرضى' : 'Patients' },
+    { to: '/doctor/appointments', label: language === 'ar' ? 'المواعيد' : 'Appointments' },
   ]
 
   const navOrg = [

@@ -75,3 +75,78 @@ export interface DoctorStat {
   totalPrescriptions: number
   flaggedPrescriptions: number
 }
+
+export interface Patient {
+  id: string
+  name: string
+  age: number
+  gender: 'male' | 'female' | 'other'
+  phone?: string
+  email?: string
+  nationalId?: string
+  notes?: string
+}
+
+export interface Visit {
+  id: string
+  patientId: string
+  doctorId: string
+  organizationId: string
+  date: string
+  reason: string
+  diagnosis: string
+  prescriptionId?: string
+  followUpDate?: string
+  notes?: string
+}
+
+export type AppointmentStatus = 'scheduled' | 'completed' | 'cancelled' | 'no_show'
+
+export interface Appointment {
+  id: string
+  patientId: string
+  doctorId: string
+  organizationId: string
+  datetime: string
+  status: AppointmentStatus
+  reason: string
+}
+
+export interface ChatMessage {
+  id: string
+  patientId: string
+  doctorId: string
+  from: 'patient' | 'doctor' | 'system'
+  content: string
+  createdAt: string
+}
+
+export interface Invoice {
+  id: string
+  patientId: string
+  organizationId: string
+  visitId?: string
+  amount: number
+  currency: string
+  status: 'unpaid' | 'paid' | 'refunded'
+  createdAt: string
+}
+
+export type PlanTier = 'free' | 'pro' | 'enterprise'
+
+export interface SubscriptionPlan {
+  id: string
+  name: string
+  tier: PlanTier
+  pricePerMonth: number
+  features: string[]
+}
+
+export interface Notification {
+  id: string
+  userId: string
+  title: string
+  body: string
+  createdAt: string
+  read: boolean
+}
