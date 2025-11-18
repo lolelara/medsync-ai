@@ -929,74 +929,106 @@ function DoctorDashboard() {
 
             <div className="mx-auto max-w-4xl">
               <div className="grid gap-4 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1.1fr)]">
-                <div className="bg-white border border-slate-200 rounded-lg shadow-sm p-4 sm:p-6 text-xs">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <div className="text-[11px] uppercase tracking-wide text-slate-500">
-                        {language === 'ar' ? 'الوجه الأمامي (عرض تجريبي)' : 'Front side (demo)'}
+                <div className="relative bg-white border border-slate-300 rounded-lg shadow-sm p-4 sm:p-6 text-xs overflow-hidden">
+                  <div className="absolute inset-x-0 top-0 h-2 bg-teal-600" />
+                  <div className="relative space-y-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="h-9 w-9 rounded-full border-2 border-teal-600 flex items-center justify-center text-[11px] font-semibold text-teal-700">
+                          Rx
+                        </div>
+                        <div className="text-[11px] text-slate-700">
+                          <div className="font-semibold text-slate-900">
+                            {language === 'ar' ? 'د. الطبيب التجريبي' : 'Demo doctor'}
+                          </div>
+                          {doctorProfile?.specialty && (
+                            <div className="text-[11px] text-slate-600">{doctorProfile.specialty}</div>
+                          )}
+                          <div className="text-[11px] text-slate-600">
+                            {language === 'ar'
+                              ? 'منصّة MedSync AI – روشتة تجريبية'
+                              : 'MedSync AI platform – demo prescription'}
+                          </div>
+                        </div>
                       </div>
-                      <div className="mt-1 font-semibold text-slate-900">
-                        {language === 'ar' ? 'عيادة MedSync' : 'MedSync Clinic'}
-                      </div>
-                      <div className="text-[11px] text-slate-500">{doctorProfile?.specialty}</div>
-                    </div>
-                    <div className="text-[11px] text-slate-500 text-right">
-                      <div>
-                        {language === 'ar' ? 'التاريخ:' : 'Date:'}{' '}
-                        {new Date().toLocaleDateString()}
-                      </div>
-                      {selectedPatient && (
+                      <div className="text-[11px] text-slate-600 text-right space-y-1">
                         <div>
-                          {language === 'ar' ? 'العمر:' : 'Age:'} {selectedPatient.age}
+                          {language === 'ar' ? 'العيادة التجريبية لـ MedSync AI' : 'MedSync AI demo clinic'}
+                        </div>
+                        <div>
+                          {language === 'ar' ? 'التاريخ:' : 'Date:'}{' '}
+                          {new Date().toLocaleDateString()}
+                        </div>
+                        {selectedPatient && (
+                          <div>
+                            {language === 'ar' ? 'العمر:' : 'Age:'} {selectedPatient.age}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="border-t border-slate-200 pt-2 mt-1 space-y-1 text-[11px] text-slate-700">
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                        <span className="font-semibold">
+                          {language === 'ar' ? 'الاسم:' : 'Name:'}
+                        </span>
+                        <span>
+                          {selectedPatient
+                            ? selectedPatient.name
+                            : language === 'ar'
+                            ? 'لم يتم اختيار مريض'
+                            : 'No patient selected'}
+                        </span>
+                        <span className="font-semibold">
+                          {language === 'ar' ? 'السن:' : 'Age:'}
+                        </span>
+                        <span>{selectedPatient ? selectedPatient.age : '—'}</span>
+                      </div>
+                      <div>
+                        <span className="font-semibold">
+                          {language === 'ar' ? 'التشخيص:' : 'Diagnosis:'}{' '}
+                        </span>
+                        {draftDiagnosis ||
+                          (language === 'ar' ? 'لم يُكتب تشخيص بعد' : 'No diagnosis entered yet')}
+                      </div>
+                    </div>
+
+                    <div className="border-t border-slate-200 pt-2 mt-1 space-y-1">
+                      {nonEmptyDraftMeds.length === 0 ? (
+                        <div className="text-[11px] text-slate-500">
+                          {language === 'ar'
+                            ? 'لم تتم إضافة أدوية بعد. ستظهر هنا على شكل سطور R/ مثل الروشتة الورقية.'
+                            : 'No medications have been added yet. They will appear here as R/ lines similar to a paper prescription.'}
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          {nonEmptyDraftMeds.map((m, index) => (
+                            <div key={`${m.name}-${index}`} className="flex items-start gap-2">
+                              <div className="mt-[2px] text-[11px] font-semibold text-slate-800">R/</div>
+                              <div className="flex-1 space-y-0.5">
+                                <div className="text-[11px] text-slate-900">
+                                  {m.name}
+                                  {m.dosage ? ` – ${m.dosage}` : ''}
+                                </div>
+                                {(m.frequency || m.duration) && (
+                                  <div className="text-[11px] text-slate-700">
+                                    {m.frequency}
+                                    {m.frequency && m.duration ? ' · ' : ''}
+                                    {m.duration}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       )}
                     </div>
-                  </div>
 
-                  <div className="border-t border-slate-200 pt-2 mt-2 space-y-1">
-                    <div className="text-[11px] text-slate-700">
-                      <span className="font-semibold">
-                        {language === 'ar' ? 'الاسم:' : 'Patient:'}{' '}
-                      </span>
-                      {selectedPatient
-                        ? selectedPatient.name
-                        : language === 'ar'
-                        ? 'لم يتم اختيار مريض'
-                        : 'No patient selected'}
+                    <div className="pt-3 mt-1 flex justify-end text-[10px] text-slate-500 italic">
+                      {language === 'ar'
+                        ? 'توقيع الطبيب (عرض تجريبي)'
+                        : 'Doctor signature (demo)'}
                     </div>
-                    <div className="text-[11px] text-slate-700">
-                      <span className="font-semibold">
-                        {language === 'ar' ? 'التشخيص:' : 'Diagnosis:'}{' '}
-                      </span>
-                      {draftDiagnosis ||
-                        (language === 'ar' ? 'لم يُكتب تشخيص بعد' : 'No diagnosis entered yet')}
-                    </div>
-                  </div>
-
-                  <div className="border-t border-slate-200 pt-2 mt-3">
-                    <div className="text-[11px] font-semibold text-slate-700 mb-1">
-                      {language === 'ar' ? 'الأدوية الموصوفة' : 'Prescribed medications'}
-                    </div>
-                    {nonEmptyDraftMeds.length === 0 ? (
-                      <div className="text-[11px] text-slate-500">
-                        {language === 'ar'
-                          ? 'لم تتم إضافة أدوية بعد.'
-                          : 'No medications have been added yet.'}
-                      </div>
-                    ) : (
-                      <ul className="space-y-1">
-                        {nonEmptyDraftMeds.map(m => (
-                          <li key={m.name} className="flex justify-between">
-                            <div className="text-[11px] text-slate-900">
-                              {m.name} – {m.dosage}
-                            </div>
-                            <div className="text-[11px] text-slate-600">
-                              {m.frequency} · {m.duration}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                   </div>
                 </div>
 
@@ -1076,8 +1108,14 @@ function DoctorDashboard() {
       <Card className="p-4">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h2 className="text-sm font-semibold text-slate-900">Prescriptions</h2>
-            <p className="text-xs text-slate-500">AI risk scoring and flags are mock data for demo purposes.</p>
+            <h2 className="text-sm font-semibold text-slate-900">
+              {language === 'ar' ? 'الوصفات التجريبية' : 'Prescriptions'}
+            </h2>
+            <p className="text-xs text-slate-500">
+              {language === 'ar'
+                ? 'تقييم الخطورة وإشارات الذكاء الاصطناعي هنا لأغراض العرض فقط وليست بيانات طبية حقيقية.'
+                : 'AI risk scoring and flags here are mock data for demo purposes only.'}
+            </p>
           </div>
         </div>
 
@@ -1121,7 +1159,7 @@ function DoctorDashboard() {
                 <td className="px-3 py-2 text-xs text-right space-x-1 whitespace-nowrap">
                   <Link to={`/doctor/prescriptions/${p.id}`}>
                     <Button variant="secondary" size="sm">
-                      Open
+                      {language === 'ar' ? 'فتح' : 'Open'}
                     </Button>
                   </Link>
                   {p.status !== 'approved' && (
@@ -1130,7 +1168,7 @@ function DoctorDashboard() {
                       size="sm"
                       onClick={() => updatePrescriptionStatus(p.id, 'approved')}
                     >
-                      Approve
+                      {language === 'ar' ? 'اعتماد' : 'Approve'}
                     </Button>
                   )}
                 </td>
