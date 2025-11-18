@@ -20,6 +20,26 @@ const interactionRules: DrugInteraction[] = [
     messageAr:
       'استخدام وارفارين مع الأسبرين يزيد من خطر النزيف. راجع ضرورة العلاج المزدوج.',
   },
+  {
+    id: 'warfarin-ibuprofen',
+    drugA: 'Warfarin',
+    drugB: 'Ibuprofen',
+    severity: 'major',
+    messageEn:
+      'Demo rule: combining Warfarin with Ibuprofen may further increase bleeding risk. Consider alternative analgesia.',
+    messageAr:
+      'قاعدة تجريبية: الجمع بين الوارفارين والإيبوبروفين قد يزيد خطر النزيف. فكّر في مسكن بديل.',
+  },
+  {
+    id: 'metformin-ibuprofen',
+    drugA: 'Metformin',
+    drugB: 'Ibuprofen',
+    severity: 'moderate',
+    messageEn:
+      'Demo rule: Metformin with frequent NSAID use may warrant closer renal function monitoring.',
+    messageAr:
+      'قاعدة تجريبية: استخدام الميتفورمين مع مضادات الالتهاب غير الستيرويدية يستدعي متابعة أدق لوظائف الكلى.',
+  },
 ]
 
 export function checkDrugInteractions(medications: PrescriptionMedication[]): DrugInteraction[] {
