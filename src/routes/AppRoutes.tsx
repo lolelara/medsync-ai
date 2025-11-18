@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LandingPage from '../pages/LandingPage'
 import LoginPage from '../pages/LoginPage'
+import PatientPortalPage from '../pages/PatientPortalPage'
 import AdminDashboard from '../pages/admin/AdminDashboard'
 import AdminUsersPage from '../pages/admin/AdminUsersPage'
 import AdminOrganizationsPage from '../pages/admin/AdminOrganizationsPage'
@@ -24,6 +25,7 @@ export function AppRoutes() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/portal" element={<PatientPortalPage />} />
 
       <Route
         path="/admin"

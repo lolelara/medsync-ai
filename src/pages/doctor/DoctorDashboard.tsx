@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useData } from '../../context/DataContext'
 import { Card } from '../../components/ui/Card'
@@ -87,6 +87,8 @@ const prescriptionTemplates: {
 
 function DoctorDashboard() {
   const { user } = useAuth()
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const {
     users,
     doctors,
@@ -135,6 +137,13 @@ function DoctorDashboard() {
     [patients, selectedPatientId]
   )
 
+  useEffect(() => {
+    const fromSearch = searchParams.get('patientId')
+    if (fromSearch) {
+      setSelectedPatientId(fromSearch)
+    }
+  }, [searchParams])
+
   const nonEmptyDraftMeds = draftMedications.filter(m => m.name.trim())
   const draftInteractions = nonEmptyDraftMeds.length
     ? checkDrugInteractions(nonEmptyDraftMeds)
@@ -142,6 +151,8 @@ function DoctorDashboard() {
   const draftInteractingNames = nonEmptyDraftMeds.length
     ? getInteractingDrugNames(nonEmptyDraftMeds)
     : []
+
+  const isDraftReady = !!selectedPatient && !!draftDiagnosis.trim() && nonEmptyDraftMeds.length > 0
 
   const handleDraftMedicationChange = (
     index: number,
@@ -462,9 +473,24 @@ function DoctorDashboard() {
               }
             />
             <div className="flex items-center justify-between gap-2">
-              <Button size="sm" variant="secondary" onClick={runDemoAiAssist}>
-                {language === 'ar' ? 'اقتراح تجريبي' : 'Generate demo suggestion'}
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button size="sm" variant="secondary" onClick={runDemoAiAssist}>
+                  {language === 'ar' ? 'اقتراح تجريبي' : 'Generate demo suggestion'}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  type="button"
+                  onClick={() => {
+                    setAiSymptoms('')
+                    setAiSuggestedDiagnosis('')
+                    setAiSuggestedTemplateKey(null)
+                    setAiExplanation('')
+                  }}
+                >
+                  {language === 'ar' ? 'مسح' : 'Clear'}
+                </Button>
+              </div>
               {aiSuggestedTemplateKey && (
                 <Button
                   size="sm"
@@ -651,10 +677,29 @@ function DoctorDashboard() {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button size="sm" variant="secondary" onClick={handlePrintPreview}>
+            {selectedPatient && (
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => navigate(`/doctor/patients/${selectedPatient.id}`)}
+              >
+                {language === 'ar' ? 'فتح ملف المريض' : 'Open patient record'}
+              </Button>
+            )}
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={handlePrintPreview}
+              disabled={!isDraftReady}
+            >
               {language === 'ar' ? 'طباعة (تجريبي)' : 'Print (demo)'}
             </Button>
-            <Button size="sm" variant="primary" onClick={handleSaveDraftAsDemo}>
+            <Button
+              size="sm"
+              variant="primary"
+              onClick={handleSaveDraftAsDemo}
+              disabled={!isDraftReady}
+            >
               {language === 'ar' ? 'حفظ في سجل التجربة' : 'Save to demo record'}
             </Button>
           </div>
@@ -747,6 +792,11 @@ function DoctorDashboard() {
               : 'This document is part of a MedSync AI demo and is not a real medical prescription.'}
           </div>
         </div>
+        <p className="mt-2 text-[11px] text-slate-500">
+          {language === 'ar'
+            ? 'لحفظ أو طباعة هذا العرض التجريبي، اختر مريضًا وأدخل تشخيصًا وأضف دواءً واحدًا على الأقل.'
+            : 'To save or print this demo preview, select a patient, enter a diagnosis, and add at least one medication.'}
+        </p>
       </Card>
 
       <Card className="p-4">

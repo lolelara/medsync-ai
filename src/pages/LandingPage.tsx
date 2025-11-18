@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom'
 import { Button } from '../components/ui/Button'
 import { Card } from '../components/ui/Card'
 import { useLanguage } from '../context/LanguageContext'
+import { useData } from '../context/DataContext'
 
 function LandingPage() {
   const { language, toggleLanguage } = useLanguage()
+  const { plans } = useData()
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
       <div className="mx-auto max-w-6xl px-4 py-8">
@@ -55,6 +57,11 @@ function LandingPage() {
                   {language === 'ar' ? 'استكشف العرض التجريبي' : 'Explore live demo'}
                 </Button>
               </Link>
+              <Link to="/portal">
+                <Button variant="secondary" size="sm">
+                  {language === 'ar' ? 'عرض بوابة المريض' : 'Patient portal demo'}
+                </Button>
+              </Link>
               <span className="text-xs text-slate-500">
                 {language === 'ar'
                   ? 'لا توجد بيانات مرضى حقيقية. جميع التحليلات وهمية لأغراض العرض للمستثمرين.'
@@ -96,6 +103,38 @@ function LandingPage() {
             </Card>
           </section>
         </main>
+        <section className="mt-12">
+          <h2 className="text-lg font-semibold text-slate-900">
+            {language === 'ar' ? 'الخطط والأسعار (عرض تجريبي)' : 'Plans and pricing (demo)'}
+          </h2>
+          <p className="mt-1 text-xs text-slate-500">
+            {language === 'ar'
+              ? 'هذه الخطط توضيحية فقط لتقسيم المنصّة بين العيادات الصغيرة والمتوسطة والمؤسسات الكبيرة.'
+              : 'Illustrative pricing tiers to showcase how MedSync AI could scale across small clinics and large systems.'}
+          </p>
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
+            {plans.map(plan => (
+              <Card key={plan.id} className="p-4 flex flex-col justify-between">
+                <div className="space-y-1">
+                  <div className="text-sm font-semibold text-slate-900">{plan.name}</div>
+                  <div className="text-xs uppercase tracking-wide text-slate-500">{plan.tier}</div>
+                  <div className="mt-2 text-lg font-semibold text-teal-700">
+                    {plan.pricePerMonth === 0
+                      ? language === 'ar'
+                        ? 'مجاني للعرض'
+                        : 'Free for demo'
+                      : `$${plan.pricePerMonth}/mo`}
+                  </div>
+                </div>
+                <ul className="mt-3 space-y-1 text-xs text-slate-600 list-disc list-inside">
+                  {plan.features.map(feature => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
+              </Card>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   )

@@ -5,6 +5,7 @@ import { useData } from '../../context/DataContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { Card } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
+import { Badge } from '../../components/ui/Badge'
 
 function DoctorPatientDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -132,10 +133,36 @@ function DoctorPatientDetailPage() {
               ? 'هذا عرض تجريبي لملف المريض يشمل الزيارات والوصفات والمواعيد والدردشة.'
               : 'Demo view of the patient record including visits, prescriptions, appointments and messaging.'}
           </p>
+          <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
+            <Badge color="blue">
+              {language === 'ar'
+                ? `الزيارات: ${patientVisits.length}`
+                : `Visits: ${patientVisits.length}`}
+            </Badge>
+            <Badge color="green">
+              {language === 'ar'
+                ? `الوصفات: ${patientPrescriptions.length}`
+                : `Prescriptions: ${patientPrescriptions.length}`}
+            </Badge>
+            <Badge color="amber">
+              {language === 'ar'
+                ? `المواعيد: ${patientAppointments.length}`
+                : `Appointments: ${patientAppointments.length}`}
+            </Badge>
+          </div>
         </div>
-        <Button variant="secondary" size="sm" onClick={() => navigate(-1)}>
-          {language === 'ar' ? 'رجوع إلى القائمة' : 'Back to list'}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => navigate(`/doctor?patientId=${patient.id}`)}
+          >
+            {language === 'ar' ? 'إنشاء روشتة تجريبية جديدة' : 'New demo prescription'}
+          </Button>
+          <Button variant="secondary" size="sm" onClick={() => navigate(-1)}>
+            {language === 'ar' ? 'رجوع إلى القائمة' : 'Back to list'}
+          </Button>
+        </div>
       </div>
 
       {aiSummary && (
